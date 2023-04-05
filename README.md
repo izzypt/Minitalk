@@ -18,6 +18,16 @@ needing to restart.
 UNIX signals
 - You can only use these two signals: SIGUSR1 and SIGUSR2.
 
+# What is a process
+
+Since the goal of this project is to send signals between different processes , it is important to know well those 2 concepts: pocess and signal.
+
+A process is an instance of a program running in a computer.
+
+A process is started when a program is initiated (either by a user entering a shell command or by another program).
+
+A process is a running program with which a particular set of data is associated so that the process can be kept track of.
+
 # What Are Signals?
 
 Signals, to be short, are various notifications sent to a process in order to notify it of various "important" events. 
