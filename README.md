@@ -74,10 +74,22 @@ By their nature, they interrupt whatever the process is doing at this minute, an
 
 Each signal may have a signal handler, which is a function that gets called when the process receives that signal.
 
-The function is called in "asynchronous mode", meaning that no where in your program you have code that calls this function directly. Instead, when the signal is sent to the process, the operating system stops the execution of the process, and "forces" it to call the signal handler function. When that signal handler function returns, the process continues execution from wherever it happened to be before the signal was received, as if this interruption never occurred. 
+The function is called in "asynchronous mode", meaning that no where in your program you have code that calls this function directly. 
+  
+Instead, when the signal is sent to the process, the operating system stops the execution of the process, and "forces" it to call the signal handler function. When that signal handler function returns, the process continues execution from wherever it happened to be before the signal was received, as if this interruption never occurred. 
 
 Programs may setup signal handlers using ```sigaction()```, or its easier-to-use wrapper ```signal()```. The handler functions receive the signal number as an argument.
+  
+ ```signal()``` takes two arguments: 
+  
+  1. The signal to handle and 
+  
+  2. A pointer to a signal handler function. 
+  
+  - When the specified signal is received, the handler function is called to handle the signal. The signal() function has several limitations, including the fact that it may reset the signal handler to its default behavior if a signal is received while the handler is executing.
 
+  ```sigaction()``` allows the process to specify a set of actions to be taken when a signal is received, including specifying a handler function or ignoring the signal entirely. 
+  
 # Sending signals
 
 - Processes may send signals using ```kill()```.
