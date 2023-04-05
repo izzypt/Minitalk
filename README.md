@@ -28,6 +28,12 @@ A process is started when a program is initiated (either by a user entering a sh
 
 A process is a running program with which a particular set of data is associated so that the process can be kept track of.
 
+A process can initiate a subprocess, which is a called a child process (and the initiating process is sometimes referred to as its parent ). 
+
+A child process is a replica of the parent process and shares some of its resources, but cannot exist if the parent is terminated.
+
+Processes can exchange information or synchronize their operation through several methods of interprocess communication ( IPC ).
+
 # What Are Signals?
 
 Signals, to be short, are various notifications sent to a process in order to notify it of various "important" events. 
