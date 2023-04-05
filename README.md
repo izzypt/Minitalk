@@ -48,6 +48,19 @@ The function is called in "asynchronous mode", meaning that no where in your pro
 
 Programs may setup signal handlers using ```sigaction()```, or its easier-to-use wrapper ```signal()```. The handler functions receive the signal number as an argument.
 
+# Sending signals
+
+- Processes may send signals using ```kill()```.
+- A process only has permission to send a signal if the real or effective user ID match, or the user has super-user privileges.
+- The ```kill()``` function allows a process to send a signal to a specific process (ignoring its descendants), to all the processes that belong to the sender’s process group ID, or (given super-user privileges) to all the processes excluding system processes.
+- There are many signals to terminate a process : 
+  - SIGTERM allows a process to gracefully terminate. 
+  - SIGKILL inconditionally aborts the process and can be used as a last resort. 
+  - SIGQUIT terminates a process, potentially creating a core dump.
+
+
+
+
 # List of Signal
 
 There is an easy way to list down all the signals supported by your system. Just issue the kill -l command and it would display all the supported signals 
