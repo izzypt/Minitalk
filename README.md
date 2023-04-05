@@ -62,7 +62,7 @@ Sockets provide a way for processes to communicate with each other over a networ
   Signals are a software interrupt mechanism used by processes to communicate with each other. A signal is an asynchronous notification that is sent to a process to indicate that a particular event has occurred.
 
   
-**This project is all about signals !!**  
+  **<ins>This project is all about signals !!</ins> **  
   
 # What Are Signals?
 
