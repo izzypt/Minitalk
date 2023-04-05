@@ -36,6 +36,24 @@ A child process is a replica of the parent process and shares some of its resour
 
 Processes can exchange information or synchronize their operation through several methods of interprocess communication ( IPC ).
 
+# The many different ways processes can communicate (IPC - interprocess communication) :
+
+
+Processes may need to communicate with each other for a variety of reasons, such as sharing data, coordinating activities, or cooperating on a task. IPC provides a standardized way for processes to exchange messages, signals, or data blocks, allowing them to work together and coordinate their activities :
+
+<ins>Pipes</ins>: Pipes are a simple and efficient way of sending data between processes. A pipe is a unidirectional data channel that connects two processes. One process writes to the pipe, while the other process reads from the pipe.
+
+<ins>Message Queues</ins>: Message queues provide a mechanism for processes to exchange messages or data blocks in a way that is similar to pipes, but with some additional features such as the ability to queue messages for later retrieval.
+
+<ins>Shared Memory</ins>: Shared memory is a technique where two or more processes can share a region of memory that they can read from and write to. This method is fast and efficient since it does not require data to be copied between processes.
+
+<ins>Sockets</ins>: Sockets provide a way for processes to communicate with each other over a network. They are a popular method for interprocess communication, particularly for distributed applications.
+
+<ins>Signals<ins>: Signals are a software interrupt mechanism used by processes to communicate with each other. A signal is an asynchronous notification that is sent to a process to indicate that a particular event has occurred.
+
+  
+**This project is all about signals.**  
+  
 # What Are Signals?
 
 Signals, to be short, are various notifications sent to a process in order to notify it of various "important" events. 
