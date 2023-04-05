@@ -36,7 +36,7 @@ A child process is a replica of the parent process and shares some of its resour
 
 Processes can exchange information or synchronize their operation through several methods of interprocess communication ( IPC ).
 
-# The many different ways processes can communicate (IPC - interprocess communication) :
+# The many different ways processes can communicate with each other (IPC - interprocess communication) :
 
 
 Processes may need to communicate with each other for a variety of reasons, such as sharing data, coordinating activities, or cooperating on a task. IPC provides a standardized way for processes to exchange messages, signals, or data blocks, allowing them to work together and coordinate their activities :
