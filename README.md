@@ -20,7 +20,7 @@ UNIX signals
 
 Since the goal of this project is to send signals between different processes , it is important to know well those 2 concepts: 
 
-<ins>Processes</ins> and <ins>Signals</ins>.
+- <ins>Processes</ins> and <ins>Signals</ins>.
 
 # What is a process
 
