@@ -110,10 +110,6 @@ Note that the behavior of signals can vary between different operating systems a
     ```
     int kill(pid_t pid, int sig);
     ```
-- There are many signals to terminate a process : 
-  - SIGTERM allows a process to gracefully terminate. 
-  - SIGKILL inconditionally aborts the process and can be used as a last resort. 
-  - SIGQUIT terminates a process, potentially creating a core dump.
 
 # Handling Signals
 
