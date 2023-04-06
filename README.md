@@ -121,14 +121,39 @@ Instead, when the signal is sent to the process, the operating system stops the 
 
 Programs may setup signal handlers using ```sigaction()```, or its easier-to-use wrapper ```signal()```. The handler functions receive the signal number as an argument.
   
- ```signal()``` takes two arguments: 
+ - ```signal()``` takes two arguments: 
   
-  1. The signal to handle and 
+    1. The signal to handle and 
   
-  2. A pointer to a signal handler function. 
+    2. A pointer to a signal handler function. 
   
-  - When the specified signal is received, the handler function is called to handle the signal. The signal() function has several limitations, including the fact that it may reset the signal handler to its default behavior if a signal is received while the handler is executing.
+    - When the specified signal is received, the handler function is called to handle the signal. The signal() function has several limitations, including the fact that it may reset the signal handler to its default behavior if a signal is received while the handler is executing.
 
-  ```sigaction()``` allows the process to specify a set of actions to be taken when a signal is received, including specifying a handler function or ignoring the signal entirely. 
+  - ```sigaction()``` provides greater control over signal handling than the simpler signal() function. You can specify a signal handler that is either a simple signal handler function or a more complex signal handling function that takes additional arguments. 
   
-  #
+    - Here are the arguments of ```sigaction()``` function:
+      - <ins>signum</ins>: This is the signal number for which the signal handler is to be set.
+      - <ins>act</ins>: This is a pointer to a sigaction structure that specifies the new signal handler.
+      - <ins>oldact</ins>: This is a pointer to a sigaction structure that will be used to return the current signal handler.
+  
+  ```
+  int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact);
+  ```
+  The sigaction structure looks like this :
+
+  ```
+    struct sigaction {
+      void     (*sa_handler)(int);
+      void     (*sa_sigaction)(int, siginfo_t *, void *);
+      sigset_t   sa_mask;
+      int        sa_flags;
+      void     (*sa_restorer)(void);
+  };
+
+  ```
+  
+- sa_handler: A pointer to a signal handling function.
+- sa_sigaction: A pointer to a signal handling function that provides additional information about the signal.
+- sa_mask: The set of signals to be blocked while the signal handler is executing.
+- sa_flags: Flags to modify the behavior of the signal.
+- sa_restorer: A pointer to a function used to restore the context after the signal handler returns.
