@@ -69,6 +69,35 @@ Sockets provide a way for processes to communicate with each other over a networ
 Signals, to be short, are various notifications sent to a process in order to notify it of various "important" events. 
 
 By their nature, they interrupt whatever the process is doing at this minute, and force it to handle them immediately. 
+  
+# Identifying Signals
+
+Each signal in C has a corresponding number, which is defined in the ```signal.h``` header file. 
+  
+The signal number is an integer constant that represents a specific signal.  
+    
+  | Signal | Number | Description |
+|----------|----------|----------|
+| SIGINT | 2 | Interrupt signal (Ctrl-C) |
+| SIGQUIT | 3 | Quit signal (Ctrl-) |
+| SIGILL | 4 | Illegal instruction signal |
+| SIGABRT | 6 | Abort signal |
+| SIGFPE | 8 | Floating-point exception signal |
+| SIGKILL | 9 | Kill signal |
+| SIGSEGV | 11 | Segmentation fault signal |
+| SIGPIPE | 13 | Broken pipe signal |
+| SIGALRM | 13 | Alarm clock signal |
+| SIGTERM| 15 | Termination signal |
+| SIGUSR1 | 10 | User-defined signal 1 |
+| SIGUSR2| 12 | User-defined signal 2 |
+
+There is an easy way to list down all the signals supported by your system. Just issue the ```kill -l``` command and it would display all the supported signals 
+
+When a process receives a signal, it can handle the signal using a signal handler function. 
+  
+  The signal handler is a function that is called when the signal is received. You can set up a signal handler using either the ```signal()``` or ```sigaction()``` function.
+
+Note that the behavior of signals can vary between different operating systems and platforms. For example, some signals may not be available on certain platforms, or their behavior may be slightly different.
 
 # Sending signals
 
@@ -105,29 +134,5 @@ Programs may setup signal handlers using ```sigaction()```, or its easier-to-use
   - When the specified signal is received, the handler function is called to handle the signal. The signal() function has several limitations, including the fact that it may reset the signal handler to its default behavior if a signal is received while the handler is executing.
 
   ```sigaction()``` allows the process to specify a set of actions to be taken when a signal is received, including specifying a handler function or ignoring the signal entirely. 
-
-# Identifying Signals
-
-Each signal in C has a corresponding number, which is defined in the ```signal.h``` header file. 
-  
-The signal number is an integer constant that represents a specific signal.  
-    
-  | Signal | Number | Description |
-|----------|----------|----------|
-| SIGINT | 2 | Interrupt signal (Ctrl-C) |
-| SIGQUIT | 3 | Quit signal (Ctrl-) |
-| SIGILL | 4 | Illegal instruction signal |
-| SIGABRT | 6 | Abort signal |
-| SIGFPE | 8 | Floating-point exception signal |
-| SIGKILL | 9 | Kill signal |
-| SIGSEGV | 11 | Segmentation fault signal |
-| SIGPIPE | 13 | Broken pipe signal |
-| SIGALRM | 13 | Alarm clock signal |
-| SIGTERM| 15 | Termination signal |
-| SIGUSR1 | 10 | User-defined signal 1 |
-| SIGUSR2| 12 | User-defined signal 2 |
-
-There is an easy way to list down all the signals supported by your system. Just issue the ```kill -l``` command and it would display all the supported signals 
-
   
   #
