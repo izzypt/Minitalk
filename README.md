@@ -70,6 +70,22 @@ Signals, to be short, are various notifications sent to a process in order to no
 
 By their nature, they interrupt whatever the process is doing at this minute, and force it to handle them immediately. 
 
+# Sending signals
+
+- Processes may send signals using ```kill()```.
+- A process only has permission to send a signal if the real or effective user ID match, or the user has super-user privileges.
+- The ```kill()``` function allows a process to send a signal to a specific process (ignoring its descendants), to all the processes that belong to the sender’s process group ID, or (given super-user privileges) to all the processes excluding system processes.
+- ```kill()``` takes 2 arguments: 
+  - The first argument pid is the process ID of the target process. 
+  - The second argument sig is the signal to send. The sig argument can be any valid signal number or zero, in which case, it does not send the signal.
+    ```
+    int kill(pid_t pid, int sig);
+    ```
+- There are many signals to terminate a process : 
+  - SIGTERM allows a process to gracefully terminate. 
+  - SIGKILL inconditionally aborts the process and can be used as a last resort. 
+  - SIGQUIT terminates a process, potentially creating a core dump.
+
 # Handling Signals
 
 Each signal may have a signal handler, which is a function that gets called when the process receives that signal.
@@ -89,19 +105,6 @@ Programs may setup signal handlers using ```sigaction()```, or its easier-to-use
   - When the specified signal is received, the handler function is called to handle the signal. The signal() function has several limitations, including the fact that it may reset the signal handler to its default behavior if a signal is received while the handler is executing.
 
   ```sigaction()``` allows the process to specify a set of actions to be taken when a signal is received, including specifying a handler function or ignoring the signal entirely. 
-  
-# Sending signals
-
-- Processes may send signals using ```kill()```.
-- A process only has permission to send a signal if the real or effective user ID match, or the user has super-user privileges.
-- The ```kill()``` function allows a process to send a signal to a specific process (ignoring its descendants), to all the processes that belong to the sender’s process group ID, or (given super-user privileges) to all the processes excluding system processes.
-- There are many signals to terminate a process : 
-  - SIGTERM allows a process to gracefully terminate. 
-  - SIGKILL inconditionally aborts the process and can be used as a last resort. 
-  - SIGQUIT terminates a process, potentially creating a core dump.
-
-
-
 
 # List of Signal
 
