@@ -106,8 +106,28 @@ Programs may setup signal handlers using ```sigaction()```, or its easier-to-use
 
   ```sigaction()``` allows the process to specify a set of actions to be taken when a signal is received, including specifying a handler function or ignoring the signal entirely. 
 
-# List of Signal
+# Identifying Signals
 
-There is an easy way to list down all the signals supported by your system. Just issue the kill -l command and it would display all the supported signals 
+Each signal in C has a corresponding number, which is defined in the ```signal.h``` header file. 
+  
+The signal number is an integer constant that represents a specific signal.  
+    
+  | Signal | Number | Description |
+|----------|----------|----------|
+| SIGINT | 2 | Interrupt signal (Ctrl-C) |
+| SIGQUIT | 3 | Quit signal (Ctrl-) |
+| SIGILL | 4 | Illegal instruction signal |
+| SIGABRT | 6 | Abort signal |
+| SIGFPE | 8 | Floating-point exception signal |
+| SIGKILL | 9 | Kill signal |
+| SIGSEGV | 11 | Segmentation fault signal |
+| SIGPIPE | 13 | Broken pipe signal |
+| SIGALRM | 13 | Alarm clock signal |
+| SIGTERM| 15 | Termination signal |
+| SIGUSR1 | 10 | User-defined signal 1 |
+| SIGUSR2| 12 | User-defined signal 2 |
 
-#
+There is an easy way to list down all the signals supported by your system. Just issue the ```kill -l``` command and it would display all the supported signals 
+
+  
+  #
