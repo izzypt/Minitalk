@@ -71,6 +71,22 @@ The primary purpose of signals is to notify a process of an event or to interrup
 Signals were not designed for data communication, and as such, they don't provide a direct mechanism for sending data between processes.
 
 By their nature, they interrupt whatever the process is doing at this minute, and force it to handle them immediately. 
+
+# Signals vs Pipes (Minitalk vs Pipex)
+
+Signals and pipes are two different mechanisms for interprocess communication in Unix/Linux systems. The main differences between signals and pipes are:
+
+  - **Purpose**: <ins>Signals</ins> are primarily used to notify a process of an event or to interrupt its execution, while <ins>pipes</ins> are used to pass data between processes.
+
+  - **Mechanism**: <ins>Signals</ins> are asynchronous and can be delivered at any time, while <ins>pipes</ins> are synchronous and block until data is read or written.
+
+  - **Data size**: <ins>Signals</ins> have a limited amount of data that can be passed between processes, typically just a small integer value (e.g., signal number). <ins>Pipes</ins> can handle much larger amounts of data.
+
+  - **Directionality**: <ins>Signals</ins> can be sent to any process in the system, while <ins>Pipes</ins> are typically used to pass data between two related processes, where one process writes to the pipe and the other reads from it.
+
+  - **Buffering**: <ins>Signals</ins> are not buffered, and the receiver process must handle them as they arrive. <ins>Pipes</ins>  have an internal buffer, which allows the sending process to write data to the pipe without blocking, and the receiving process to read data from the pipe when it is ready.
+
+In summary, signals are lightweight and primarily used for notifications, while pipes are heavier and designed for data communication.
   
 # Identifying Signals
 
