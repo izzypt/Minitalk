@@ -277,3 +277,7 @@ In order to send our string in it's binary representation , it's important to kn
 
 Check this link for further information on bitwise operations :
 https://iq.opengenus.org/addition-using-bitwise-operations/
+
+Bitwise Operator Basics :
+
+https://www.youtube.com/watch?v=jlQmeyce65Q
