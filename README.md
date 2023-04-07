@@ -192,56 +192,75 @@ Here's a basic idea on how you can implement this approach:
 
 3. Reconstruct the string: In the receiving process, capture the signals using a signal handler function. Keep track of the bits and reconstruct the original string from the binary values.
 
-Here's a sample code for sending a string from the sender process using signals:
+Here's a sample code:
 
 ```
 #include <stdio.h>
 #include <stdlib.h>
-#include <signal.h>
 #include <string.h>
+#include <unistd.h>
+#include <signal.h>
 
-#define MAX_MSG_LEN 100
-
-void send_bit(pid_t pid, int bit)
-{
+void send_bit(int bit) {
     if (bit == 0) {
-        kill(pid, SIGUSR1);
-    } else {
-        kill(pid, SIGUSR2);
+        // Send SIGUSR1 signal for bit 0
+        kill(getpid(), SIGUSR1);
+    } else if (bit == 1) {
+        // Send SIGUSR2 signal for bit 1
+        kill(getpid(), SIGUSR2);
     }
 }
 
-void send_string(pid_t pid, const char *str)
-{
-    int len = strlen(str);
-    char msg[MAX_MSG_LEN];
-
-    // Convert the string to binary and store it in the message buffer
-    for (int i = 0; i < len; i++) {
-        for (int j = 0; j < 8; j++) {
-            int bit = (str[i] >> (7 - j)) & 1;
-            send_bit(pid, bit);
-        }
-    }
-
-    // Terminate the message with a null byte
-    for (int i = 0; i < 8; i++) {
-        send_bit(pid, 0);
+void send_char(char c) {
+    int i;
+    for (i = 0; i < 8; i++) {
+        // Get the i-th bit of the character
+        int bit = (c >> i) & 1;
+        send_bit(bit);
+        usleep(1000);  // Sleep for 1 millisecond to avoid flooding the signal queue
     }
 }
 
-int main(int argc, char *argv[])
-{
-    if (argc != 3) {
-        fprintf(stderr, "Usage: %s <pid> <message>\n", argv[0]);
-        exit(1);
+void send_string(char* str) {
+    int i;
+    for (i = 0; i < strlen(str); i++) {
+        send_char(str[i]);
     }
+    // Signal end of transmission with 8 SIGUSR1 signals
+    for (i = 0; i < 8; i++) {
+        send_bit(0);
+        usleep(1000);
+    }
+}
 
-    pid_t pid = atoi(argv[1]);
-    const char *msg = argv[2];
+void signal_handler(int sig) {
+    static char received_char = 0;
+    static int bit_count = 0;
+    if (sig == SIGUSR1) {
+        // Received a 0 bit
+        received_char |= (0 << bit_count);
+    } else if (sig == SIGUSR2) {
+        // Received a 1 bit
+        received_char |= (1 << bit_count);
+    }
+    bit_count++;
+    if (bit_count == 8) {
+        // Received a full character, print it to stdout
+        putchar(received_char);
+        fflush(stdout);
+        bit_count = 0;
+        received_char = 0;
+    }
+}
 
-    send_string(pid, msg);
-
+int main() {
+    // Set up signal handler for SIGUSR1 and SIGUSR2
+    signal(SIGUSR1, signal_handler);
+    signal(SIGUSR2, signal_handler);
+    
+    // Send the string "Simao" over signals
+    send_string("Simao");
+    
     return 0;
 }
 ```
