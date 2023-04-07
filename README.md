@@ -66,7 +66,9 @@ Sockets provide a way for processes to communicate with each other over a networ
   
 # What Are Signals?
 
-Signals, to be short, are various notifications sent to a process in order to notify it of various "important" events. 
+The primary purpose of signals is to notify a process of an event or to interrupt its execution. 
+
+Signals were not designed for data communication, and as such, they don't provide a direct mechanism for sending data between processes.
 
 By their nature, they interrupt whatever the process is doing at this minute, and force it to handle them immediately. 
   
