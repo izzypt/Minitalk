@@ -175,3 +175,86 @@ Programs may setup signal handlers using ```sigaction()```, or its easier-to-use
   - sa_mask: The set of signals to be blocked while the signal handler is executing.
   - sa_flags: Flags to modify the behavior of the signal.
   - sa_restorer: A pointer to a function used to restore the context after the signal handler returns.
+
+  # Sending Data with signals
+  
+  As explaind above , the primary purpose of signals is not to send data, rather, it is to notify a process of an event or to interrupt its execution.
+  
+  So , in order to complete our project and send strings through signals we need a workaround.
+
+One way to send a string using signals is to encode the string as a sequence of bits and send each bit as a signal. This approach is known as <ins>bit-banging</ins>.
+
+Here's a basic idea on how you can implement this approach:
+
+1. Convert the string to binary: Convert each character of the string to its corresponding ASCII value and then convert that value to binary.
+
+2. Send the bits using signals: Send each bit as a signal, using `SIGUSR1` to represent `0` and `SIGUSR2` to represent `1`. You can use the `kill()` function to send the signals.
+
+3. Reconstruct the string: In the receiving process, capture the signals using a signal handler function. Keep track of the bits and reconstruct the original string from the binary values.
+
+Here's a sample code for sending a string from the sender process using signals:
+
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <string.h>
+
+#define MAX_MSG_LEN 100
+
+void send_bit(pid_t pid, int bit)
+{
+    if (bit == 0) {
+        kill(pid, SIGUSR1);
+    } else {
+        kill(pid, SIGUSR2);
+    }
+}
+
+void send_string(pid_t pid, const char *str)
+{
+    int len = strlen(str);
+    char msg[MAX_MSG_LEN];
+
+    // Convert the string to binary and store it in the message buffer
+    for (int i = 0; i < len; i++) {
+        for (int j = 0; j < 8; j++) {
+            int bit = (str[i] >> (7 - j)) & 1;
+            send_bit(pid, bit);
+        }
+    }
+
+    // Terminate the message with a null byte
+    for (int i = 0; i < 8; i++) {
+        send_bit(pid, 0);
+    }
+}
+
+int main(int argc, char *argv[])
+{
+    if (argc != 3) {
+        fprintf(stderr, "Usage: %s <pid> <message>\n", argv[0]);
+        exit(1);
+    }
+
+    pid_t pid = atoi(argv[1]);
+    const char *msg = argv[2];
+
+    send_string(pid, msg);
+
+    return 0;
+}
+```
+
+Here, the `send_string()` function takes a process ID and a string as arguments, converts the string to binary, and sends each bit as a signal using `send_bit()` function. The binary message is terminated with a null byte to indicate the end of the message.
+
+Note that this is just a basic idea, and there are many optimizations that can be done to make the code more efficient and robust. Also, the receiver process must implement a signal handler function to capture the signals and reconstruct the original string from the binary values.
+                          
+ # Bitwise Operations
+                          
+In order to send our string in it's binary representation , it's important to know bitwise operations :
+
+![image](https://user-images.githubusercontent.com/73948790/230652129-1096f84d-266d-48a7-9bdf-63716fb4d2a0.png)
+
+Check this link for further information on bitwise operations :
+https://iq.opengenus.org/addition-using-bitwise-operations/
