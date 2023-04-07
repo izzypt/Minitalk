@@ -152,8 +152,8 @@ Programs may setup signal handlers using ```sigaction()```, or its easier-to-use
 
   ```
   
-- sa_handler: A pointer to a signal handling function.
-- sa_sigaction: A pointer to a signal handling function that provides additional information about the signal.
-- sa_mask: The set of signals to be blocked while the signal handler is executing.
-- sa_flags: Flags to modify the behavior of the signal.
-- sa_restorer: A pointer to a function used to restore the context after the signal handler returns.
+  - sa_handler: A pointer to a signal handling function.
+  - sa_sigaction: A pointer to a signal handling function that provides additional information about the signal.
+  - sa_mask: The set of signals to be blocked while the signal handler is executing.
+  - sa_flags: Flags to modify the behavior of the signal.
+  - sa_restorer: A pointer to a function used to restore the context after the signal handler returns.
