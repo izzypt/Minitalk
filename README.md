@@ -271,7 +271,9 @@ Note that this is just a basic idea, and there are many optimizations that can b
                           
  # Bitwise Operations
                           
-In order to send our string in it's binary representation , it's important to know bitwise operations :
+In order to send our string in it's binary representation , it's important to know bitwise operations which we have used in the code :
+
+Here are some references and links for furhter information :
 
 ![image](https://user-images.githubusercontent.com/73948790/230652129-1096f84d-266d-48a7-9bdf-63716fb4d2a0.png)
 
@@ -281,3 +283,32 @@ https://iq.opengenus.org/addition-using-bitwise-operations/
 Bitwise Operator Basics :
 
 https://www.youtube.com/watch?v=jlQmeyce65Q
+
+# Allowed functions for the project
+
+Here's a small explanation on each of the allowed functions for this project :
+
+- **write**
+- **ft_printf** and any equivalent YOU coded
+- **signal()**
+  - The signal function is used to register a signal handler for a particular signal. The goal of this function is to set up a function to be called when a specific signal is received by the program. The parameters for this function are: the signal number, and the signal handler function.
+- **sigemptyset()**
+  - The sigemptyset function is used to initialize an empty signal set. The goal of this function is to create an empty signal set that can be used to add or remove signals. The parameters for this function are: a pointer to a signal set that will be initialized.
+- **sigaddset()**
+  - The sigaddset function is used to add a signal to a signal set. The goal of this function is to add a signal to an existing signal set. The parameters for this function are: a pointer to a signal set, and the signal number to add.
+- **sigaction()**
+  - The sigaction function is used to set up a signal handler for a specific signal. The goal of this function is to register a function to be called when a particular signal is received. The parameters for this function are: the signal number, a pointer to a struct containing information about the signal handler, and a pointer to a struct to store the previous signal handler.
+- **kill()**
+  - The kill function is used to send a signal to a process or a group of processes. The goal of this function is to send a signal to a particular process or group of processes. The parameters for this function are: the process ID or process group ID to send the signal to, and the signal number to send.
+- **getpid()**
+  -  The getpid function is used to get the process ID of the current process. The goal of this function is to retrieve the process ID of the current process.
+- **malloc()**
+- **free()**
+- **pause()**
+  - The pause function is used to suspend the execution of the calling process until a signal is received. The goal of this function is to block the process until a signal is received. The function does not have any parameters.
+- **sleep()**
+  - The sleep function is used to suspend the execution of the calling thread for a specified number of seconds. The goal of this function is to make the thread sleep for a specified time. The parameter for this function is: the number of seconds to sleep.
+- **usleep()**
+  - The usleep function is used to suspend the execution of the calling thread for a specified number of microseconds. The goal of this function is to make the thread sleep for a specified time. The parameter for this function is: the number of microseconds to sleep.
+- **exit()**
+  - The exit function is used to terminate the program
