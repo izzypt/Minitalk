@@ -286,7 +286,7 @@ https://www.youtube.com/watch?v=jlQmeyce65Q
 
 
 
-Now let's take a look at the code snippet that sends a message from one process to another using signals throught binary representation.
+**Now let's take a look at the code snippet that sends a message from one process to another using signals throught binary representation.**
 
 ```
 while (*str) // loop through each character in the string
@@ -318,6 +318,53 @@ Let's say the current character being processed is 'A' (which has an ASCII value
 10. The outer loop repeats for the next character in the string, if any.
 
 In this way, the code is able to encode a string of characters into a series of signals that can be sent to the receiving process, which can then decode the signals back into the original string of characters.
+  
+  
+**Now let's take a look at how we handl receiving those signals and bits**
+
+Here is a step-by-step breakdown of how the code works:
+
+```
+static void handle_signal(int sig, siginfo_t *info, void *context)
+{
+    static int bit_count; // initialize a counter for the number of bits received
+    static unsigned char c; // initialize a variable to store the decoded character
+
+    (void)context; // suppress unused variable warning
+
+    c |= (sig == SIGUSR2); // set the LSB of `c` based on the signal received
+    if (++bit_count == 8) // if we've received 8 bits
+    {
+        bit_count = 0; // reset the bit counter
+        if (!c) // if `c` is null, we've reached the end of the message
+        {
+            kill(info->si_pid, SIGUSR2); // send a confirmation signal to the sending process
+            info->si_pid = 0; // reset the process ID to indicate that the message has been fully received
+            return; // exit the function
+        }
+        ft_putchar_fd(c, 1); // print the decoded character to the console
+        c = 0; // reset `c` to prepare for the next character
+    }
+    else // if we haven't received 8 bits yet
+        c <<= 1; // shift `c` to the left to make room for the next bit
+}
+```
+
+Let's say the receiving process has received a sequence of signals that represent the character 'A'. Here is a step-by-step breakdown of how the code decodes the signals and reconstructs the original character:
+
+1. The signal handler function is called with the signal number (`sig`), signal information (`info`), and context information (`context`).
+2. The bit counter (`bit_count`) is initialized to 0 and the decoded character variable (`c`) is initialized to 0.
+3. The first signal is received, and `sig` is set to the signal number (either SIGUSR1 or SIGUSR2).
+4. The bitwise OR (`|`) operator is used to set the least significant bit (LSB) of `c` based on the signal received. If `sig` is SIGUSR2, the LSB of `c` is set to 1; otherwise, the LSB of `c` remains 0.
+5. The bit counter is incremented to 1.
+6. This process continues for the remaining 7 signals, with the LSB of `c` being set based on each signal received and the bit counter being incremented each time.
+7. When the bit counter reaches 8, it means that we have received all 8 bits of the character. The bit counter is reset to 0.
+8. If `c` is null, it means we have reached the end of the message. The receiving process sends a confirmation signal to the sending process (`kill(info->si_pid, SIGUSR2)`), resets the process ID (`info->si_pid = 0`), and exits the function.
+9. If `c` is not null, it means we have decoded a complete character. The character is printed to the console (`ft_putchar_fd(c, 1)`) and `c` is reset to 0 to prepare for the next character.
+10. The bit shifting operation (`c <<= 1`) is used to make room for the next bit in `c`.
+11. This process continues until all signals have been received and the entire message has been reconstructed.
+
+In this way, the code is able to decode a sequence of signals into a string of characters that was originally sent by the sending
 
 # Allowed functions for the project
 
