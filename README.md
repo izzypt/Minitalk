@@ -284,6 +284,41 @@ Bitwise Operator Basics :
 
 https://www.youtube.com/watch?v=jlQmeyce65Q
 
+
+
+Now let's take a look at the code snippet that sends a message from one process to another using signals throught binary representation.
+
+```
+while (*str) // loop through each character in the string
+{
+    i = 8; // initialize a counter to 8 bits
+    c = *str++; // get the next character from the string and increment the pointer
+    while (i--) // loop through each bit of the character (from MSB to LSB)
+    {
+        if (c >> i & 1) // if the i-th bit of the character is 1
+            kill(pid, SIGUSR2); // send a SIGUSR2 signal to the receiving process
+        else // otherwise, the bit must be 0
+            kill(pid, SIGUSR1); // send a SIGUSR1 signal to the receiving process
+        usleep(100); // wait for 100 microseconds before sending the next signal
+    }
+}
+```
+
+Let's say the current character being processed is 'A' (which has an ASCII value of 65 or binary value of 01000001). Here is a step-by-step breakdown of how the code sends the signals to the receiving process:
+
+1. `i` is initialized to 8.
+2. `c` is set to the binary value of 'A', which is 01000001.
+3. The outer loop begins. Since `*str` is not null, the loop body is executed.
+4. The inner loop begins. `i` is currently 8, so the loop body is executed 8 times.
+5. In the first iteration of the inner loop, `i` is 7. `c >> i` shifts the binary value of 'A' to the right by 7 bits, resulting in 0. `0 & 1` is 0, so a SIGUSR1 signal is sent to the receiving process.
+6. The program waits for 100 microseconds.
+7. In the second iteration of the inner loop, `i` is 6. `c >> i` shifts the binary value of 'A' to the right by 6 bits, resulting in 1. `1 & 1` is 1, so a SIGUSR2 signal is sent to the receiving process.
+8. The program waits for 100 microseconds.
+9. This process continues for the remaining bits of the character, resulting in a sequence of signals that represents the binary value of the character.
+10. The outer loop repeats for the next character in the string, if any.
+
+In this way, the code is able to encode a string of characters into a series of signals that can be sent to the receiving process, which can then decode the signals back into the original string of characters.
+
 # Allowed functions for the project
 
 Here's a small explanation on each of the allowed functions for this project :
